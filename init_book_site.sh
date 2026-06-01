@@ -13,3 +13,5 @@ git init
 git add .
 git commit -m "first commit"
 
+# create the deploy file
+jupyter book init --gh-pages
