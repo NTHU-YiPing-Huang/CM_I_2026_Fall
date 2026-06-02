@@ -21,16 +21,17 @@ project:
   id: bd3b2489-7369-4abd-9bd4-fd1d376c22dd
   toc:
     - file: syllabus.md
-    - file: introduction.md
-    - title: Pre-knowledge
-      children:
-        - file: QM.tex
-        - file: SM.tex
-    - file: emergence.tex
     - title: Emergent phenomena
       children:
+        - file: emergence.tex
         - file: polymer.tex
         - file: metal.tex
+    - title: Pre-knowledge
+      children:
+        - file: introduction.md
+        - file: SM.tex
+        - file: SQ.tex
+        - file: PI.tex
   exports:
     - format: pdf
       template: lapreprint-typst

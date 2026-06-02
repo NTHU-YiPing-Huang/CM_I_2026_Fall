@@ -15,3 +15,7 @@ git commit -m "first commit"
 
 # create the deploy file
 jupyter book init --gh-pages
+git add .
+git commit -m "with deploy"
+git remote add origin git@github.com:NTHU-YiPing-Huang/CM_I_2026_Fall.git
+git push -u origin main
