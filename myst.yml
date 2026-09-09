@@ -23,12 +23,9 @@ project:
     - file: syllabus.md
     - title: Emergent phenomena
       children:
-        - file: emergence.tex
-        - file: polymer.tex
-        - file: metal.tex
+        - file: w1_emergence_QMBS.md
     - title: Pre-knowledge
       children:
-        - file: introduction.md
         - file: SM.tex
         - file: SQ.tex
         - file: PI.tex
