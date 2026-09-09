@@ -146,6 +146,8 @@ t
 \right).
 $$
 
+Here, $\langle i,j\rangle$ means $i,j$ are nearest neighboring sites.
+
 The original atomic level now produces $N$ different eigenstates.
 
 For a one-dimensional periodic chain,
@@ -586,6 +588,8 @@ $$
 N\rightarrow\infty.
 $$
 
+Here, $\mathcal N(a,b)$ stands for normal distribution centered at $a$ with width $b$.
+
 In other words,
 
 $$
@@ -734,13 +738,13 @@ But equally importantly,
 
 $$
 \boxed{
-\text{More can also be simpler.}
+\text{More can also be simpler (universal).}
 }
 $$
 
-This apparent paradox is one of the reasons condensed matter theory is possible.
+This apparent paradox is one of the reasons condensed matter physics is simultaneously universal but diversified.
 
-If every microscopic detail remained equally important at macroscopic scales, understanding a system containing $10^{23}$ particles would be hopeless.
+If every microscopic detail remained equally important at macroscopic scales, understanding a system containing $10^{23}$ particles would be hopeless and not universal.
 
 Instead, large systems often organize themselves into descriptions involving only a small number of collective variables and effective laws.
 

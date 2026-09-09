@@ -24,6 +24,9 @@ project:
     - title: Emergent phenomena
       children:
         - file: w1_emergence_QMBS.md
+    - title: Homework
+      children:
+        - file: w1_HW.md
     - title: Pre-knowledge
       children:
         - file: SM.tex
