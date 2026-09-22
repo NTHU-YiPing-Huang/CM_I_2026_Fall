@@ -1,0 +1,853 @@
+# Homework 1 — From Microscopic Hamiltonians to Emergent Spectra
+
+## Learning objectives
+
+After completing this homework, you should be able to:
+
+1. translate a Hamiltonian written in bra-ket notation into its matrix representation;
+2. identify translational symmetry and use it to choose a convenient basis;
+3. diagonalize a simple lattice Hamiltonian analytically using Fourier modes;
+4. construct and diagonalize Hamiltonian matrices numerically;
+5. compare analytical predictions with numerical results;
+6. interpret finite-size spectra and understand how the level spacing changes with system size;
+7. investigate how a local breaking of translational symmetry modifies collective spectral properties.
+
+The main conceptual flow of this homework is
+
+$$
+\boxed{
+\text{Hamiltonian}
+\rightarrow
+\text{matrix}
+\rightarrow
+\text{symmetry}
+\rightarrow
+\text{eigenstates}
+\rightarrow
+\text{numerics}
+\rightarrow
+\text{physical interpretation}
+}
+$$
+
+---
+
+# Problem 1 — From an operator to a matrix
+
+Although we have not yet formally introduced the tight-binding Hamiltonian, consider the Hamiltonian written in Eq. (11):
+
+$$
+H
+=
+E_0\sum_{i=1}^{N}|i\rangle\langle i|
+-
+t\sum_{i=1}^{N}
+\left(
+|i\rangle\langle i+1|
++
+|i+1\rangle\langle i|
+\right),
+$$
+
+with periodic boundary condition
+
+$$
+|N+1\rangle = |1\rangle.
+$$
+
+Here, the basis states
+
+$$
+\{|1\rangle, |2\rangle, \ldots, |N\rangle\}
+$$
+
+represent a particle localized on one of the $N$ sites.
+
+### Question
+
+Write down the $N\times N$ matrix representation of $H$ in the basis
+
+$$
+\{|1\rangle, |2\rangle, \ldots, |N\rangle\}.
+$$
+
+Your answer should make clear:
+
+- the diagonal matrix elements;
+- the nearest-neighbor hopping matrix elements;
+- the matrix elements that implement the periodic boundary condition.
+
+---
+
+## Main lesson — Problem 1
+
+The purpose of this problem is to learn how to move between different representations of the same quantum operator.
+
+$$
+\boxed{
+\text{abstract operator}
+\longleftrightarrow
+\text{matrix representation}
+}
+$$
+
+Once a basis is chosen, the Hamiltonian becomes a matrix. The entries of that matrix directly encode the physical processes allowed by the model:
+
+* diagonal elements describe the energy associated with occupying a site;
+* off-diagonal elements describe transitions between different basis states;
+* boundary conditions determine additional matrix elements.
+
+An important point is that the Hamiltonian itself is an operator. Its matrix form appears only after we choose a basis.
+
+Thus,
+
+$$
+\boxed{
+\text{operator}
++
+\text{choice of basis}
+\longrightarrow
+\text{matrix representation}
+}
+$$
+
+This translation between physical processes, operator notation, and matrix elements is one of the most basic skills used throughout quantum many-body physics.
+
+---
+
+# Problem 2 — Use symmetry before computation
+
+For the one-dimensional periodic chain, diagonalize the Hamiltonian analytically and show that the eigenvalues take the form
+
+$$
+E(k)=E_0-2t\cos k.
+$$
+
+Also determine the allowed values of $k$.
+
+### Hint 1
+
+The system is translationally invariant. Consider restructuring the basis using the Fourier-transformed states
+
+$$
+|k\rangle
+=
+\frac{1}{\sqrt N}
+\sum_{j=1}^{N}
+e^{ikj}|j\rangle.
+$$
+
+Apply the Hamiltonian to $|k\rangle$ and determine whether it is an eigenstate.
+
+### Hint 2
+
+There are other ways to solve the same eigenvalue problem. For example, you may write the components of an eigenvector as
+
+$$
+\psi_j \propto z^j
+$$
+
+and use the periodic boundary condition to determine the allowed values of $z$.
+
+### Conceptual question
+
+Why is translational symmetry useful here? In particular, explain why choosing a symmetry-adapted basis is more efficient than directly computing the determinant of a large $N\times N$ matrix.
+
+---
+
+## Main lesson — Problem 2
+
+The purpose of this problem is not simply to diagonalize a matrix. It is to recognize that **symmetry tells us which basis is natural**.
+
+The Hamiltonian is translationally invariant, so momentum states are adapted to the symmetry of the problem. In this basis, a large matrix diagonalization becomes a much simpler algebraic problem.
+
+$$
+\boxed{
+\text{symmetry}
+\longrightarrow
+\text{good quantum numbers}
+\longrightarrow
+\text{better basis}
+\longrightarrow
+\text{simpler Hamiltonian}
+}
+$$
+
+A recurring strategy in condensed matter physics is therefore:
+
+> Before attempting brute-force computation, first ask what symmetries the Hamiltonian has and whether they suggest a more useful basis.
+
+The Fourier transform is not merely a mathematical trick. It is the basis transformation naturally associated with translational symmetry.
+
+---
+
+# Problem 3 — Numerical diagonalization and the thermodynamic limit
+
+For simplicity, set
+
+$$
+E_0=0,
+\qquad
+t=1.
+$$
+
+Construct the Hamiltonian numerically for
+
+$$
+N=100
+$$
+
+and
+
+$$
+N=200.
+$$
+
+Diagonalize the matrix numerically and sort the eigenvalues in ascending order,
+
+$$
+E_1 \le E_2 \le \cdots \le E_N.
+$$
+
+For each system size, make a plot where:
+
+- the horizontal axis is the eigenvalue index $n$;
+- the vertical axis is the corresponding eigenvalue $E_n$.
+
+You may either plot the two spectra separately or show them together in a way that makes comparison easy.
+
+### Questions
+
+1. Does the total bandwidth change significantly when $N$ is increased from $100$ to $200$?
+
+2. What happens to the typical spacing between neighboring energy levels?
+
+3. Compare your numerical result with the analytical dispersion relation
+
+$$
+E(k)=-2\cos k.
+$$
+
+Are the numerical eigenvalues consistent with the analytical prediction?
+
+4. In the lecture we argued that, if a fixed bandwidth contains an increasing number of states, the characteristic level spacing should decrease as the system size increases. Is your numerical result consistent with this argument?
+
+5. Estimate how the characteristic level spacing changes when $N$ is doubled from $100$ to $200$.
+
+---
+
+## Main lesson — Problem 3
+
+The purpose of this problem is to connect analytical reasoning, numerical computation, and the thermodynamic limit.
+
+The microscopic hopping scale remains fixed, so the total bandwidth remains approximately fixed:
+
+$$
+W\sim O(t).
+$$
+
+However, as the number of sites increases, more eigenvalues must fit inside this finite energy interval. Therefore the spectrum becomes increasingly dense:
+
+$$
+N\uparrow
+\qquad\Rightarrow\qquad
+\delta E\downarrow.
+$$
+
+For this one-particle problem, the average level spacing across the band scales approximately as
+
+$$
+\delta E_{\mathrm{avg}}
+\sim
+\frac{W}{N}.
+$$
+
+The important physical lesson is
+
+$$
+\boxed{
+\text{a fixed microscopic energy scale can coexist with an increasingly small collective level spacing}
+}
+$$
+
+as the system size increases.
+
+This is one of the simplest examples of how the thermodynamic limit can qualitatively change the spectrum of a system.
+
+Numerical diagonalization also provides an important consistency check:
+
+$$
+\boxed{
+\text{analytical prediction}
+\longleftrightarrow
+\text{numerical spectrum}
+}
+$$
+
+A numerical result becomes physically meaningful when it can be connected to an analytical argument.
+
+---
+
+# Problem 4 — Breaking translational symmetry locally
+
+We now introduce a local defect by weakening one hopping amplitude.
+
+For the $N=100$ system, change the hopping between sites $50$ and $51$ from
+
+$$
+t=1
+$$
+
+to
+
+$$
+t'=0.1.
+$$
+
+That is,
+
+$$
+t_{50,51}=t_{51,50}=0.1.
+$$
+
+For the $N=200$ system, make the corresponding modification between sites $100$ and $101$:
+
+$$
+t_{100,101}=t_{101,100}=0.1.
+$$
+
+All other hopping amplitudes remain equal to $1$.
+
+Numerically diagonalize the modified Hamiltonians and compare the sorted spectra with those of the uniform systems.
+
+### Questions
+
+1. How does the spectrum change after introducing the weak bond?
+
+2. Is momentum $k$ still a good quantum number? Explain your answer in terms of translational symmetry.
+
+3. Does the overall bandwidth change substantially?
+
+4. Is the relative influence of this single modified bond stronger for $N=100$ or for $N=200$?
+
+5. A single bond is modified out of approximately $N$ bonds. The fraction of modified bonds therefore scales as
+
+$$
+\frac{1}{N}.
+$$
+
+What does this suggest about the influence of one local perturbation on global spectral properties in the thermodynamic limit
+
+$$
+N\rightarrow\infty?
+$$
+
+6. Even if the effect on the global spectrum becomes relatively small as $N$ increases, does the defect still break translational symmetry exactly? Explain the distinction between these two statements.
+
+---
+
+# Optional extension — Inspect the eigenstates
+
+The eigenvalues tell us only part of the story.
+
+For the uniform periodic chain, choose a few eigenstates and inspect the probability distribution
+
+$$
+|\psi_i|^2
+$$
+
+over the lattice sites.
+
+Repeat the same analysis for the system with the weak bond.
+
+### Questions
+
+1. Are the eigenstates of the uniform system spatially extended?
+
+2. How does the weak bond modify the spatial structure of the eigenstates?
+
+3. Can the spectrum change only slightly while the eigenvectors change in a more visible way?
+
+This optional exercise illustrates an important principle in condensed matter physics:
+
+$$
+\boxed{
+\text{The spectrum and the eigenstates contain different physical information.}
+}
+$$
+
+---
+
+
+
+# Problem 5 — Second quantization and band structure
+
+## Fourier transformation in second quantization
+
+For a periodic chain with \(N\) lattice sites, define the momentum-space annihilation and creation operators by
+
+$$
+a_k
+=
+\frac{1}{\sqrt N}
+\sum_{j=1}^{N}
+e^{-ikj}a_j,
+$$
+
+and
+
+$$
+a_k^\dagger
+=
+\frac{1}{\sqrt N}
+\sum_{j=1}^{N}
+e^{ikj}a_j^\dagger.
+$$
+
+The inverse transformation is
+
+$$
+a_j
+=
+\frac{1}{\sqrt N}
+\sum_k
+e^{ikj}a_k,
+$$
+
+and
+
+$$
+a_j^\dagger
+=
+\frac{1}{\sqrt N}
+\sum_k
+e^{-ikj}a_k^\dagger.
+$$
+
+For periodic boundary conditions, the allowed momenta are
+
+$$
+k=\frac{2\pi n}{N},
+\qquad
+n=0,1,\ldots,N-1.
+$$
+
+The tight-binding model, originally in the first quantization form, in the Problem 1 can be expressed in the second quantization form
+
+$$
+H
+=
+-t\sum_{j=1}^{N}
+\left(
+a_j^\dagger a_{j+1}
++
+a_{j+1}^\dagger a_j
+\right)
+$$
+
+Using these definitions, show that the secon quantized Hamiltonian can be written as
+
+$$
+H
+=
+\sum_k
+\epsilon_k a_k^\dagger a_k,
+$$
+
+with
+
+$$
+\epsilon_k=-2t\cos k.
+$$
+
+Here, the operator $a_j^\dagger$ creates a particle localized at lattice site $j$, while $a_k^\dagger$ creates a particle in the momentum eigenstate $k$.
+
+The same Fourier transformation can be used for both bosons and fermions. The difference between the two cases enters through their operator algebra:
+
+for bosons,
+
+$$
+[b_i,b_j^\dagger]=\delta_{ij},
+$$
+
+while for fermions,
+
+$$
+\{c_i,c_j^\dagger\}=\delta_{ij}.
+$$
+
+The purpose of this problem is to understand when this difference in algebra begins to affect the physical many-particle states.
+
+## When Do Bosons and Fermions Become Different?
+
+In this problem, we will compare bosons and fermions and ask when quantum statistics actually begins to matter.
+
+---
+
+## (a) One particle
+
+First consider the case
+
+$$
+N_{\mathrm{particle}}=1.
+$$
+
+A general one-particle state can be written as
+
+$$
+\sum_{j=1}^{N}
+\psi_j a_j^\dagger|0\rangle.
+$$
+
+### Questions
+
+1. Does this expression depend on whether $a_j^\dagger$ is a bosonic or fermionic creation operator?
+
+2. Show that the momentum eigenstates can be written as
+
+$$
+|k\rangle=a_k^\dagger|0\rangle.
+$$
+
+3. Show that
+
+$$
+H|k\rangle=\epsilon_k|k\rangle,
+$$
+
+with
+
+$$
+\epsilon_k=-2t\cos k.
+$$
+
+4. Based on this result, does bosonic or fermionic statistics make any difference when there is only one particle?
+
+5. Explain physically why exchange statistics is not yet visible in the one-particle problem.
+
+The main question to think about is:
+
+$$
+\boxed{
+\text{When does the distinction between bosons and fermions actually begin to matter?}\
+}
+$$
+
+---
+
+## (b) Half filling with fermions
+
+Now consider
+
+$$
+\frac{N}{2}
+$$
+
+spinless fermions.
+
+Let the corresponding creation and annihilation operators be denoted by
+
+$$
+c_k^\dagger,
+\qquad
+c_k.
+$$
+
+For fermions,
+
+$$
+(c_k^\dagger)^2=0,
+$$
+
+so each momentum mode can contain at most one fermion.
+
+Equivalently,
+
+$$
+n_k=c_k^\dagger c_k
+$$
+
+can take only the values
+
+$$
+n_k=0,1.
+$$
+
+### Questions
+
+1. Using the single-particle dispersion
+
+$$
+\epsilon_k=-2t\cos k,
+$$
+
+which momentum states should be occupied in the many-body ground state?
+
+2. Write the fermionic many-body ground state in the form
+
+$$
+\prod_{k\in\mathrm{occupied}}
+c_k^\dagger|0\rangle.
+$$
+
+3. Why can the fermions not all occupy the lowest-energy momentum state?
+
+4. What is meant by the statement that the fermions "fill a Fermi sea"?
+
+5. As $N$ becomes large, what happens to the spacing between the occupied and unoccupied levels near the highest occupied state?
+
+6. How is the structure of the many-body ground state related to the Pauli exclusion principle?
+
+---
+
+## (c) Half filling with bosons
+
+Now consider instead
+
+$$
+\frac{N}{2}
+$$
+
+noninteracting bosons.
+
+Let the corresponding creation and annihilation operators be denoted by
+
+$$
+b_k^\dagger,
+\qquad
+b_k.
+$$
+
+For bosons,
+
+$$
+n_k=b_k^\dagger b_k
+$$
+
+can take the values
+
+$$
+n_k=0,1,2,\ldots
+$$
+
+with no restriction to a single particle per momentum mode.
+
+For $t>0$, the lowest single-particle energy occurs at
+
+$$
+k=0,
+$$
+
+where
+
+$$
+\epsilon\_{k=0}=-2t.
+$$
+
+### Questions
+
+1. Which momentum state should the bosons occupy in the many-body ground state?
+
+2. Write the normalized many-body ground state.
+
+3. How many momentum modes are occupied in the bosonic ground state?
+
+4. Why are the bosons allowed to occupy the same momentum state?
+
+5. Compare this ground state with the fermionic ground state from part (b).
+
+---
+
+## (d) Compare bosons and fermions
+
+The single-particle Hamiltonian is the same in both cases:
+
+$$
+\sum_k
+\epsilon_k a_k^\dagger a_k,
+$$
+
+with the same single-particle dispersion
+
+$$
+\epsilon_k=-2t\cos k.
+$$
+
+However, the many-body ground states are very different.
+
+### Questions
+
+1. Why is the one-particle problem identical for bosons and fermions, while the many-particle problem is not?
+
+2. Complete the following conceptual statement:
+
+$$
+\boxed{
+\text{The Hamiltonian determines } \underline{\hspace{3cm}},
+\qquad
+\text{while quantum statistics determines } \underline{\hspace{3cm}}.
+}
+$$
+
+3. Explain why the same single-particle energy levels can lead to qualitatively different many-body physics.
+
+4. Which ingredient is responsible for the difference between
+
+$$
+|\Psi_F\rangle
+$$
+
+and
+
+$$
+|\Psi_B\rangle?
+$$
+
+---
+
+## Main lesson
+
+This problem illustrates an important distinction:
+
+$$
+\boxed{
+N_{\mathrm{particle}}=1
+\quad\Rightarrow\quad
+\text{bosonic and fermionic statistics are not yet visible}
+}
+$$
+
+but
+
+$$
+\boxed{
+N_{\mathrm{particle}}>1
+\quad\Rightarrow\quad
+\text{statistics constrains how particles occupy the available states}.
+}
+$$
+
+The same single-particle spectrum can therefore produce very different many-body states:
+
+$$
+\boxed{
+\text{same one-particle physics}
++
+\text{different quantum statistics}
+\Rightarrow
+\text{different many-body physics}.
+}
+$$
+
+
+# Summary
+
+
+
+
+
+
+
+
+## Main lesson — Problem 5
+
+This problem introduces the conceptual change from **single-particle quantum mechanics** to **many-particle quantum mechanics**.
+
+The Fourier transformation is the same for bosons and fermions, and the one-particle dispersion is also the same:
+
+$$
+\epsilon_k=-2t\cos k.
+$$
+
+For one particle,
+
+$$
+N_{\mathrm{particle}}=1,
+$$
+
+there is no exchange between identical particles and no competition for occupation of the same orbital.
+
+Therefore bosonic and fermionic statistics do not change the one-particle spectrum.
+
+The distinction becomes physically important when more than one identical particle is present.
+
+For fermions,
+
+$$
+n_k=0,1,
+$$
+
+because of the Pauli exclusion principle.
+
+For bosons,
+
+$$
+n_k=0,1,2,\ldots,
+$$
+
+so many particles may occupy the same single-particle state.
+
+Thus the same set of single-particle orbitals can generate very different many-particle ground states:
+
+$$
+\boxed{
+\text{same single-particle Hamiltonian}
++
+\text{different occupation rules}
+\Rightarrow
+\text{different many-body physics}
+}
+$$
+
+The central conceptual distinction is
+
+$$
+\boxed{
+\text{the Hamiltonian determines the available single-particle states and their energies}
+}
+$$
+
+while
+
+$$
+\boxed{
+\text{quantum statistics determines how identical particles are allowed to occupy those states}
+}
+$$
+
+Second quantization makes this distinction particularly transparent because occupation numbers become the natural language of the many-particle problem.
+
+---
+
+# Overall lesson of Homework 1
+
+The five problems form a sequence of increasingly physical descriptions of the same simple system:
+
+$$
+\boxed{
+\text{operator}
+\rightarrow
+\text{matrix}
+\rightarrow
+\text{symmetry}
+\rightarrow
+\text{spectrum}
+\rightarrow
+\text{perturbation}
+\rightarrow
+\text{many-particle occupation}
+}
+$$
+
+The deeper lesson is that condensed matter theory is not primarily about diagonalizing increasingly large matrices.
+
+Instead, we repeatedly ask:
+
+1. **What representation makes the physics transparent?**
+2. **What symmetry can simplify the problem?**
+3. **What changes as the system becomes large?**
+4. **Which microscopic perturbations matter for bulk physics?**
+5. **How does many-particle statistics change the physical state?**
+
+These questions will recur throughout the course.
+
