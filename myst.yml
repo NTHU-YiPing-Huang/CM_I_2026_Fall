@@ -24,6 +24,8 @@ project:
     - title: Emergent phenomena
       children:
         - file: w1_emergence_QMBS.md
+        - file: w2_2nd_quantization.md
+        - file: w3_TB_Bloch_Theorem.md
     - title: Homework
       children:
         - file: w1_HW.md
