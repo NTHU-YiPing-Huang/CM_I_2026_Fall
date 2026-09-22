@@ -792,39 +792,7 @@ $$
 
 ---
 
-## Main lesson
 
-This problem illustrates an important distinction:
-
-$$
-\boxed{
-N_{\mathrm{particle}}=1
-\quad\Rightarrow\quad
-\text{bosonic and fermionic statistics are not yet visible}
-}
-$$
-
-but
-
-$$
-\boxed{
-N_{\mathrm{particle}}>1
-\quad\Rightarrow\quad
-\text{statistics constrains how particles occupy the available states}.
-}
-$$
-
-The same single-particle spectrum can therefore produce very different many-body states:
-
-$$
-\boxed{
-\text{same one-particle physics}
-+
-\text{different quantum statistics}
-\Rightarrow
-\text{different many-body physics}.
-}
-$$
 
 ## Main lesson — Problem 5
 
