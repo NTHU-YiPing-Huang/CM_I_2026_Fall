@@ -26,9 +26,15 @@ project:
         - file: w1_emergence_QMBS.md
         - file: w2_2nd_quantization.md
         - file: w3_TB_Bloch_Theorem.md
+        - file: w4_Band_theory_FS.md
+        - file: w5_Berry_phase_Topo_band.md
     - title: Homework
       children:
         - file: w1_HW.md
+    - title: Midterm Project Proposal
+      children:
+        - file: mid_term_proposal_guide.md
+        - file: condensed_matter_I_final_presentation_topics.md
     - title: Pre-knowledge
       children:
         - file: SM.tex
