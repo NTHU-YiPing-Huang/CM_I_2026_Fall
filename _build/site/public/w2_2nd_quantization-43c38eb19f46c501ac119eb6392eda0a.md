@@ -1,0 +1,1184 @@
+# Week 2: Second Quantization and Collective Excitations
+
+## Central Pedagogical Goal
+
+The main goal of this lecture is to understand **second quantization not as a new physical theory, but as a more natural language for describing quantum many-body systems**, especially when particle number, occupation numbers, interactions, and collective excitations become the relevant degrees of freedom.
+
+A useful guiding question throughout the lecture is:
+
+> **What are the appropriate variables for describing a quantum many-body system?**
+
+The conceptual chain of this lecture is
+
+$$
+\boxed{
+\text{single-particle basis}
+\rightarrow
+\text{many-particle basis}
+\rightarrow
+\text{occupation numbers}
+\rightarrow
+a^\dagger,a
+\rightarrow
+\text{second-quantized Hamiltonian}
+\rightarrow
+\text{collective excitations}
+}
+$$
+
+---
+
+# 1. Why Do We Need Second Quantization?
+
+## 1.1  Occupation-number representation
+
+### It doesn't make sense to keep track of each particle when particles are indistinguishable
+
+Consider a set of single-particle states
+
+$$
+|\phi_1\rangle,\,
+|\phi_2\rangle,\,
+\ldots,\,
+|\phi_M\rangle.
+$$
+
+For two **distinguishable** particles, the Hilbert space is
+
+$$
+\mathcal H_1\otimes \mathcal H_1,
+$$
+
+and a basis can be written as
+
+$$
+|\phi_i\rangle\otimes|\phi_j\rangle.
+$$
+
+However, identical quantum particles are **indistinguishable**.
+
+For two identical bosons, the properly symmetrized state is
+
+$$
+|\Psi_{ij}^{(B)}\rangle
+=
+\frac{1}{\sqrt{2}}
+\left(
+|i\rangle|j\rangle
++
+|j\rangle|i\rangle
+\right),
+$$
+
+while for two identical fermions,
+
+$$
+|\Psi_{ij}^{(F)}\rangle
+=
+\frac{1}{\sqrt{2}}
+\left(
+|i\rangle|j\rangle
+-
+|j\rangle|i\rangle
+\right).
+$$
+
+For many particles, explicitly symmetrizing or antisymmetrizing wavefunctions quickly becomes cumbersome.
+
+Instead of asking
+
+> Which particle occupies which state?
+
+it is more natural to ask
+
+> How many particles occupy each state?
+
+This motivates the occupation-number representation for an $N$-body quantum state and the corresponding definition of physical observables for calculation.
+
+A many-particle state can be written as
+
+$$
+|n_{\alpha_1},n_{\alpha_2},\ldots,n_{\alpha_M}\rangle,
+$$
+
+where $n_{\alpha_j}$ denotes the occupation number of the single-particle state $\alpha_j$.
+
+For bosons,
+
+$$
+n_{\alpha_j}=0,1,2,\ldots,
+$$
+
+while for fermions,
+
+$$
+n_{\alpha_j}=0,1.
+$$
+
+Thus, instead of tracking individual particle labels, we describe the physical configuration directly by occupation numbers.
+
+A useful conceptual shorthand is:
+
+> **First quantization emphasizes particle coordinates.  
+> Second quantization emphasizes occupation of quantum states.**
+
+---
+
+## 1.2 The exponential growing Hilbert space dimension
+
+### Dimension of many-body Hilbert space grows exponentially, but local Hamiltonians usually is specified by a small set of parameters
+
+When we have $N$-particles, we have
+
+$$
+\mathcal{H}_N=\mathcal{H}_1^{(1)}\otimes\mathcal{H}_1^{(2)}\otimes...\otimes\mathcal{H}_1^{(N)}.
+$$
+If $D[\mathcal{H}_1]=d$ denotes the dimension $d$ of the Hilbert space $\mathcal{H}_1$, then $D[\mathcal{H}_N]\sim e^N$.
+
+It means the matrix representation of many-body Hamiltonians(local) are usually sparse. How to effectively compress the information and form a informative description is the key.
+
+* Faithful representations: first quantization, second quantization(suitable for later simplification focusing on collective behavior)
+* Variational representations: tensor networks, Boltzmann machine, etc.
+
+---
+
+# 2. $N$-particle states
+
+## 2.1 From the first quantization to the occupation number representation
+
+Let's denote the real space coordinate as $\vec{r}$ and the internal coordinate as $\sigma$. The $x$-representation combines both of them, *i.e.* $|x\rangle \equiv|\vec{r},\sigma\rangle$.
+
+The completeness relation is
+
+$$
+\int dx |x\rangle\langle x|=\mathbf{1}_{\vec{r},\sigma}; \langle x|x'\rangle=\delta(x-x').
+$$
+
+Here, $\int dx ...$ means $\int d\vec{r}\sum_{\sigma}...$ and $\delta(x-x')$ means $\delta(\vec{r}-\vec{r'})\delta_{\sigma,\sigma'}$.
+
+The wave function, $\varphi_{\alpha}(x)=\langle x|\alpha\rangle$, is the $x$-representation of $|\alpha\rangle$.
+
+Let's consider the $N$ distinguishable particles' wave function with quantum number $\{\alpha_i\}$, denoted by $|\{\alpha_i\})$. That is,
+
+$$
+|\alpha_1,\alpha_2,...,\alpha_N)\equiv|\alpha_1\rangle|\alpha_2\rangle...|\alpha_N\rangle
+$$
+
+Here, we assume the compelteness relation in $\mathcal{H}_1$ as $\sum_{\alpha}|\alpha\rangle\langle\alpha|=\textbf{1}_{\mathcal{H}_1}$. Also, notice that this state, $|...)$, is *NOT* the physical wave function of $N$ identicle particles. This state is just an intermediate device for us to construct and understand the construction of the wave function of $N$ identicle particles.
+
+To generate wave functions for **indistinguishable** particles, we consider the symmetrize and anti-symmetrize operators. 
+
+$$
+S &= (N!)^{-1}\sum_P P \\
+A &= (N!)^{-1}\sum_P (-1)^P P
+$$
+
+where $P$ is the operator that permute the index of the particles. $(-1)^P$ means we consider the corresponding coefficient according to the even/oddness of the permutation. A permutation $P$ is even if it can be transformed into identity by even number of nearest neighbor swaps. For example, for the permutation $P^*$ such that $P^*(ABC)=(CAB)$. $P^*$ is an even permutation since we can turn $(CAB)$ to $(ABC)$ by swaping $CA$ first, then $CB$ later. That is, **TWO* nearest neighbor swaps.
+
+Now, let's apply the symmetrization and anti-symmetrization operators to our $N$-particle fictitious state $|...)$.
+
+### Bosons
+
+$$
+|\alpha_1\alpha_2...\alpha_N\rangle_S= N_S S|\alpha_1\alpha_2...\alpha_N).
+$$
+
+Here $N_S$ stands for the normalization of the wave function in order to keep $ _S\langle \alpha_1\alpha_2...\alpha_N|\alpha_1\alpha_2...\alpha_N\rangle_S=1$. To settle the normalization, we need to be aware that the normalization should be inherent from the single particle normalization $\langle \alpha|\beta\rangle=\delta_{\alpha,\beta}$. Therefore, it is important to know how to count the distinct fictitious states $|\{\alpha_i\})$ when some particles occupie the same quantum number $\alpha$.
+
+It is the time that the **occupation number** representation becomes useful. Instead of tracking the quantum number of individual particle, which does not make sense for identicle particles, we describe the system as how many particles occupy a particular quantum state $|\alpha$ and enumerate all the possible quantum states of a single particle Hilbert space, $\mathcal{H}_1$.
+
+That is, if we have a $M$-dimensional single particle Hilbert space $\mathcal{H}_1$ labeled by quantum number $a_j;j=1\sim M$, we can have our fictitious state described by $|\{\alpha_i\})$ where $\alpha_i\in\{a_j\}$. Then, we can have the occupation number representation of a state as $|n_{a_1}n_{a_2}...n_{a_M}\rangle$ where $\sum_jn_j=N$. If $M$ is unbounded, we usually have the occupation number representation denoted as $|n_{a_1}n_{a_2}...\rangle$ without specifying the occupation number of the last state since there is no *last* single particle state in $\mathcal{H}_1$.
+
+With the occupation number notion in mind, we know the counting problem better. For a fictitious state $|\alpha_1\alpha_2...\alpha_N)$ equivalent to $|n_{a_1}n_{a_2}...\rangle$ with $\sum_j n_{a_j}=N$, the number of distict fictitious state after permutation is
+
+$$
+\frac{N!}{n_{a_1}!n_{a_2}!...}.
+$$
+
+Therefore, we can find $N_s$ accordingly since
+
+$$
+_S\langle \alpha_1\alpha_2...\alpha_N|\alpha_1\alpha_2...\alpha_N\rangle_S&=\langle n_{\alpha_1}n_{\alpha_2}...|n_{\alpha_1}n_{\alpha_2}...\rangle=1\\
+&=N_S^2\sum_P\sum_Q (N!)^{-2}(\alpha_1\alpha_2...\alpha_N|PQ|\alpha_1\alpha_2...\alpha_N)
+$$
+
+$(\alpha_1\alpha_2...\alpha_N|P=(\alpha_{P_1}\alpha_{P_2}...\alpha_{P_N}|$ is just one of the permutation of $\{\alpha_i\}$. Similarly $Q|\alpha_1\alpha_2...\alpha_N)=|\alpha_{Q_1}\alpha_{Q_2}...\alpha_{Q_N})$. The inner product is identity only when the corresponding permutation $P$ and $Q$ are identicle. For each $P$, the number of such non-zero terms we got while summing over $Q$ is $n_{\alpha_1}!n_{\alpha_2}!...$. After we perform the summation over $Q$, we have
+
+$$
+1=N_S ^2\sum_P(N!)^{-2}n_{\alpha_1}!n_{\alpha_2}!...=N_S^2(N!)^{-1} n_{\alpha_1}!n_{\alpha_2}!...
+$$
+
+The summation over $P$ contribute another $N!$ factor since the above statement is true for all $P$. This gives 
+
+$$
+N_S=\sqrt{\frac{N!}{n_{\alpha_1}!n_{\alpha_2}!...}}
+$$
+
+and
+
+$$
+|\alpha_1\alpha_2...\alpha_N\rangle_S&=\sqrt{\frac{N!}{n_{\alpha_1}!n_{\alpha_2}!...}}S|\alpha_1\alpha_2...\alpha_N)\\
+&=\frac{1}{\sqrt{N!n_{\alpha_1}!n_{\alpha_2}!...}}\sum_P |\alpha_{P_1}\alpha_{P_2}...\alpha_N)\\
+&=|n_{\alpha_1}n_{\alpha_2}...\rangle_S
+$$
+
+### Fermions
+
+$$
+|\alpha_1\alpha_2...\alpha_N\rangle_A= N_A A|\alpha_1\alpha_2...\alpha_N).
+$$
+
+We can perform exactly the same procedure and got $N_{A}$. However, notice that the anti-symmetrized wave function forbidden two particles occupied the same single particle state. That is, $n_{\alpha_j}=0,1;n_{\alpha_j}!=1$. To some extend, it is the special case of our above enumeration problem and we have
+
+$$
+N_A=\sqrt{N!}
+$$
+
+and
+
+$$
+|\alpha_1\alpha_2...\alpha_N\rangle_A&=\sqrt{N!}A|\alpha_1\alpha_2...\alpha_N)\\
+&=\frac{1}{\sqrt{N!}}\sum_P (-1)^P|\alpha_{P_1}\alpha_{P_2}...\alpha_{P_N})\\
+&=|n_{\alpha_1}n_{\alpha_2}...\rangle_A.
+$$
+
+It is usually tidious to write $|\{n_{\alpha_j}\}\rangle_S$ or $|\{n_{\alpha_j}\}\rangle_A$ explicitly. Usually, we wrote $|\{n_{\alpha_j}\}\rangle$ without the explict subscript when the formulation is valid in general for $N$ bosons/fermions.
+
+
+# 3. Fock Space
+
+The vacuum state is
+
+$$
+|0\rangle
+\equiv
+|\{n_{\alpha_j}=0\}\rangle.
+$$
+
+Notice that $|0\rangle$ is not zero, it is a specific state with structure. However, in simple cases, the structure is kind of trivial--tensor product of vacuumn states of the single particle Hilbert space.
+
+The Fock space contains sectors with different particle numbers:
+
+$$
+\mathcal F
+=
+\mathbb C
+\oplus
+\mathcal H_1
+\oplus
+\mathcal H_2
+\oplus
+\mathcal H_3
+\oplus\cdots.
+$$
+
+Here,
+
+- $\mathbb C$ is the zero-particle sector,
+- $\mathcal H_1$ is the one-particle Hilbert space,
+- $\mathcal H_2$ is the two-particle sector,
+- and so on.
+
+The occupation number representation of bosons/fermions are
+
+$$
+|n_1,n_2,\ldots\rangle
+=
+\prod_i
+\frac{(a_{\alpha_i}^\dagger)^{n_{\alpha_i}}}{\sqrt{n_{\alpha_i}!}}
+|0\rangle.
+$$
+
+For bosons, $n_{\alpha_i}\ge0$; For fermions, $n_{\alpha_i}=\{0,1\}$.
+This construction allows states with different total particle numbers to be treated in a unified Hilbert space.
+
+The total number operator will later be
+
+$$
+\hat N
+=
+\sum_i \hat n_{\alpha_i}.
+$$
+
+The comleteness relation in $\mathcal H_N^S$ is
+
+$$
+\mathbf{1}_{N}^{S}&= S\mathbf 1_NS=\sum_{\alpha_1...\alpha_N} S|\alpha_1...\alpha_N)(\alpha_1...\alpha_N|S\\
+&=\sum_{\alpha_1...\alpha_N}\frac{n_{\alpha_1}!n_{\alpha_2}!...}{N!}|\alpha_1...\alpha_N\rangle_S\langle \alpha_1...\alpha_N|\\
+&=\sum_{ n_{\alpha_1}n_{\alpha_2}... }\frac{n_{\alpha_1}!n_{\alpha_2}!...}{N!}|n_{a_1}n_{a_2}...\rangle\langle n_{a_1}n_{a_2}...|
+$$
+
+
+Now we should be familiar with the expression. I will use $i$ for quantum number and omit the full expression of qantum number $\alpha_i$.
+
+
+---
+
+# 4. Creation and Annihilation Operators
+
+## 4.1 Bosons
+
+The bosonic creation operator $a_i^\dagger$ increases the occupation of state $i$:
+
+$$
+a_i^\dagger|n_i\rangle
+=
+\sqrt{n_i+1}\,
+|n_i+1\rangle.
+$$
+
+The annihilation operator $a_i$ decreases the occupation:
+
+$$
+a_i|n_i\rangle
+=
+\sqrt{n_i}\,
+|n_i-1\rangle.
+$$
+
+They satisfy the canonical commutation relations
+
+$$
+[a_i,a_j^\dagger]
+=
+\delta_{ij},
+$$
+
+$$
+[a_i,a_j]
+=
+0,
+$$
+
+$$
+[a_i^\dagger,a_j^\dagger]
+=
+0.
+$$
+
+The occupation-number operator is
+
+$$
+\hat n_i
+=
+a_i^\dagger a_i.
+$$
+
+Therefore,
+
+$$
+\hat n_i|n_i\rangle
+=
+n_i|n_i\rangle.
+$$
+
+---
+
+## 4.2 Fermions
+
+For fermions, we introduce $c_i^\dagger$ and $c_i$.
+
+They satisfy the canonical anticommutation relations
+
+$$
+\{c_i,c_j^\dagger\}
+=
+\delta_{ij},
+$$
+
+$$
+\{c_i,c_j\}
+=
+0,
+$$
+
+$$
+\{c_i^\dagger,c_j^\dagger\}
+=
+0.
+$$
+
+For $i=j$,
+
+$$
+\{c_i^\dagger,c_i^\dagger\}
+=
+2(c_i^\dagger)^2
+=
+0.
+$$
+
+Therefore,
+
+$$
+(c_i^\dagger)^2=0.
+$$
+
+This immediately implies that one cannot create two identical fermions in the same single-particle state.
+
+Hence,
+
+$$
+n_i=0,1.
+$$
+
+The Pauli exclusion principle is therefore encoded directly in the operator algebra.
+
+The fermionic number operator is
+
+$$
+\hat n_i
+=
+c_i^\dagger c_i,
+$$
+
+and the total particle-number operator is
+
+$$
+\hat N
+=
+\sum_i c_i^\dagger c_i.
+$$
+
+### Quick conceptual question
+
+What is the eigenvalue of $\hat N$ acting on
+
+$$
+|1,0,1,1,0\rangle?
+$$
+
+Since there are three occupied states,
+
+$$
+\hat N|1,0,1,1,0\rangle
+=
+3|1,0,1,1,0\rangle.
+$$
+
+---
+
+# 5. From a Single-Particle Hamiltonian to Second Quantization
+
+This section connects directly to the tight-binding Hamiltonian introduced previously.
+
+Suppose the single-particle Hamiltonian is
+
+$$
+\hat h
+=
+\sum_{ij}
+h_{ij}
+|i\rangle\langle j|.
+$$
+
+The corresponding second-quantized Hamiltonian is
+
+$$
+\boxed{
+\hat H
+=
+\sum_{ij}
+h_{ij}
+c_i^\dagger c_j.
+}
+$$
+
+The operator
+
+$$
+c_i^\dagger c_j
+$$
+
+has a simple physical meaning:
+
+1. annihilate one particle in state $j$,
+2. create one particle in state $i$.
+
+Therefore,
+
+$$
+|i\rangle\langle j|
+\quad\longrightarrow\quad
+c_i^\dagger c_j.
+$$
+
+This is one of the most important correspondences in second quantization.
+
+---
+
+## 5.1 Tight-binding example
+
+Consider the one-dimensional tight-binding Hamiltonian
+
+$$
+H
+=
+E_0
+\sum_i
+|i\rangle\langle i|
+-
+t
+\sum_i
+\left(
+|i\rangle\langle i+1|
++
+|i+1\rangle\langle i|
+\right).
+$$
+
+Its second-quantized form is
+
+$$
+\boxed{
+\hat H
+=
+E_0
+\sum_i
+c_i^\dagger c_i
+-
+t
+\sum_i
+\left(
+c_i^\dagger c_{i+1}
++
+c_{i+1}^\dagger c_i
+\right).
+}
+$$
+
+The first term represents the on-site energy.
+
+The second term represents hopping between neighboring sites.
+
+For example,
+
+$$
+c_{i+1}^\dagger c_i
+$$
+
+moves a particle from site $i$ to site $i+1$.
+
+This illustrates an important point:
+
+> **Second quantization does not replace the single-particle Hamiltonian. It lifts the single-particle operator into many-particle Fock space.**
+
+---
+
+# 6. In-Class Exercise
+
+Consider the single-particle Hamiltonian
+
+$$
+H
+=
+-t
+\begin{pmatrix}
+0 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 0
+\end{pmatrix}.
+$$
+
+## Question 1
+
+Write the corresponding second-quantized Hamiltonian.
+
+### Solution
+
+The nonzero matrix elements correspond to hopping between sites $1$ and $2$, and between sites $2$ and $3$.
+
+Therefore,
+
+$$
+\boxed{
+\hat H
+=
+-t
+\left(
+c_1^\dagger c_2
++
+c_2^\dagger c_1
++
+c_2^\dagger c_3
++
+c_3^\dagger c_2
+\right).
+}
+$$
+
+## Question 2
+
+What processes can act on the fermionic state
+
+$$
+|1,0,1\rangle?
+$$
+
+The two particles occupy sites $1$ and $3$.
+
+The terms
+
+$$
+c_2^\dagger c_1
+$$
+
+and
+
+$$
+c_2^\dagger c_3
+$$
+
+can move either particle toward the middle site.
+
+This exercise gives a direct physical interpretation of the operator products appearing in the Hamiltonian.
+
+---
+
+# 7. Why Second Quantization Becomes Essential for Interactions
+
+For noninteracting particles, second quantization is elegant.
+
+For interacting particles, it becomes especially powerful.
+
+A generic first-quantized Hamiltonian can be written schematically as
+
+$$
+H
+=
+\sum_i
+h(\mathbf r_i)
++
+\frac{1}{2}
+\sum_{i\neq j}
+V(\mathbf r_i-\mathbf r_j).
+$$
+
+The second-quantized form is
+
+$$
+\boxed{
+H
+=
+\sum_{ij}
+h_{ij}
+c_i^\dagger c_j
++
+\frac{1}{2}
+\sum_{ijkl}
+V_{ijkl}
+c_i^\dagger
+c_j^\dagger
+c_l
+c_k.
+}
+$$
+
+The one-body term
+
+$$
+c_i^\dagger c_j
+$$
+
+describes the motion of one particle.
+
+The two-body term
+
+$$
+c_i^\dagger
+c_j^\dagger
+c_l
+c_k
+$$
+
+describes a scattering process:
+
+$$
+(k,l)
+\rightarrow
+(i,j).
+$$
+
+The operators
+
+$$
+c_l c_k
+$$
+
+remove two particles from the initial states, while
+
+$$
+c_i^\dagger c_j^\dagger
+$$
+
+create two particles in the final states.
+
+Thus interactions can be interpreted directly as microscopic scattering processes.
+
+---
+
+# 8. Example: The Hubbard Model
+
+One of the simplest interacting lattice Hamiltonians is the Hubbard model:
+
+$$
+\boxed{
+H
+=
+-t
+\sum_{\langle ij\rangle,\sigma}
+\left(
+c_{i\sigma}^\dagger c_{j\sigma}
++
+c_{j\sigma}^\dagger c_{i\sigma}
+\right)
++
+U
+\sum_i
+n_{i\uparrow}n_{i\downarrow}.
+}
+$$
+
+The hopping term,
+
+$$
+-t
+\sum_{\langle ij\rangle,\sigma}
+c_{i\sigma}^\dagger c_{j\sigma},
+$$
+
+favors particle delocalization.
+
+The interaction term,
+
+$$
+U
+\sum_i
+n_{i\uparrow}n_{i\downarrow},
+$$
+
+assigns an energy cost to double occupation.
+
+The physics therefore involves competition between
+
+$$
+\boxed{
+\text{kinetic delocalization}
+\quad\text{and}\quad
+\text{local interaction}.
+}
+$$
+
+A large fraction of condensed matter physics can be viewed as understanding the consequences of such competing terms.
+
+---
+
+# 9. From Microscopic Particles to Collective Excitations
+
+Once many particles interact, the microscopic particles are not always the most useful variables for describing low-energy physics.
+
+Examples include
+
+$$
+\text{atoms}
+\rightarrow
+\text{phonons},
+$$
+
+$$
+\text{spins}
+\rightarrow
+\text{magnons},
+$$
+
+$$
+\text{electrons}
+\rightarrow
+\text{density fluctuations},
+$$
+
+$$
+\text{interacting electrons}
+\rightarrow
+\text{quasiparticles},
+$$
+
+$$
+\text{paired electrons}
+\rightarrow
+\text{Bogoliubov quasiparticles}.
+$$
+
+The microscopic Hamiltonian may be written using operators such as
+
+$$
+c_i,
+\qquad
+c_i^\dagger,
+$$
+
+but the effective low-energy Hamiltonian may take the form
+
+$$
+H_{\mathrm{eff}}
+=
+\sum_q
+\omega_q
+b_q^\dagger b_q.
+$$
+
+The operator $b_q^\dagger$ may create an excitation involving the coordinated motion of a macroscopic number of microscopic degrees of freedom.
+
+This is one of the central ideas of condensed matter physics:
+
+> **The elementary excitations of an interacting many-body system need not be the microscopic particles from which the system is built.**
+
+---
+
+# 10. Minimal Example: Phonons
+
+Consider a one-dimensional chain of atoms with displacement $u_j$ and momentum $p_j$.
+
+The harmonic-chain Hamiltonian is
+
+$$
+H
+=
+\sum_j
+\frac{p_j^2}{2m}
++
+\frac{K}{2}
+\sum_j
+(u_{j+1}-u_j)^2.
+$$
+
+Here,
+
+- $m$ is the atomic mass,
+- $K$ is the spring constant,
+- $u_j$ is the displacement of atom $j$ from equilibrium.
+
+---
+
+## 10.1 Fourier transformation
+
+Introduce normal-mode coordinates:
+
+$$
+u_j
+=
+\frac{1}{\sqrt N}
+\sum_q
+u_q
+e^{iqR_j},
+$$
+
+and
+
+$$
+p_j
+=
+\frac{1}{\sqrt N}
+\sum_q
+p_q
+e^{iqR_j}.
+$$
+
+The Hamiltonian becomes a sum over independent momentum modes:
+
+$$
+H
+=
+\sum_q
+\left[
+\frac{p_qp_{-q}}{2m}
++
+\frac{m\omega_q^2}{2}
+u_qu_{-q}
+\right].
+$$
+
+The dispersion relation is
+
+$$
+\boxed{
+\omega_q
+=
+2\sqrt{\frac{K}{m}}
+\left|
+\sin\left(\frac{qa}{2}\right)
+\right|.
+}
+$$
+
+Each momentum mode behaves like an independent harmonic oscillator.
+
+---
+
+## 10.2 Quantization of the normal modes
+
+For each mode, define bosonic creation and annihilation operators.
+
+Schematically,
+
+$$
+u_q
+\propto
+b_q+b_{-q}^\dagger,
+$$
+
+and
+
+$$
+p_q
+\propto
+b_q-b_{-q}^\dagger.
+$$
+
+The Hamiltonian becomes
+
+$$
+\boxed{
+H
+=
+\sum_q
+\hbar\omega_q
+\left(
+b_q^\dagger b_q
++
+\frac{1}{2}
+\right).
+}
+$$
+
+The occupation number
+
+$$
+n_q
+=
+b_q^\dagger b_q
+$$
+
+counts the number of phonons in mode $q$.
+
+The original microscopic degrees of freedom were atomic displacements.
+
+The natural quantum excitations are now phonons.
+
+Thus,
+
+$$
+\boxed{
+\text{coupled atomic motion}
+\rightarrow
+\text{independent collective modes}
+\rightarrow
+\text{phonons}.
+}
+$$
+
+This provides a concrete example of emergence.
+
+---
+
+# 11. Key Conceptual Message
+
+The phonon example illustrates why second quantization and collective excitations naturally belong together.
+
+The microscopic system may contain a very large number of interacting degrees of freedom.
+
+However, after identifying the appropriate normal modes, the Hamiltonian may take the simple form
+
+$$
+H
+=
+\sum_q
+\epsilon_q
+\gamma_q^\dagger\gamma_q.
+$$
+
+The operators $\gamma_q^\dagger$ create the **appropriate emergent excitations** rather than necessarily the original microscopic particles.
+
+A useful perspective for the rest of condensed matter physics is:
+
+> **Much of condensed matter physics is the search for the right creation and annihilation operators.**
+
+---
+
+# 12. Learning Outcomes
+
+By the end of Week 2, students should be able to:
+
+1. Translate between particle-coordinate and occupation-number descriptions.
+
+2. Explain the meaning of Fock space.
+
+3. Use bosonic commutation relations,
+
+   $$
+   [a_i,a_j^\dagger]=\delta_{ij},
+   $$
+
+   and fermionic anticommutation relations,
+
+   $$
+   \{c_i,c_j^\dagger\}=\delta_{ij}.
+   $$
+
+4. Explain how the Pauli exclusion principle follows from
+
+   $$
+   (c_i^\dagger)^2=0.
+   $$
+
+5. Convert a single-particle matrix Hamiltonian
+
+   $$
+   h_{ij}
+   $$
+
+   into the second-quantized form
+
+   $$
+   \sum_{ij}
+   h_{ij}
+   c_i^\dagger c_j.
+   $$
+
+6. Interpret
+
+   $$
+   c_i^\dagger c_j
+   $$
+
+   as a one-particle transition.
+
+7. Interpret
+
+   $$
+   c_i^\dagger c_j^\dagger c_l c_k
+   $$
+
+   as a two-particle scattering process.
+
+8. Explain why collective excitations can be treated as particles even though they arise from coordinated motion of many microscopic degrees of freedom.
+
+---
+
+# 13. Final Summary
+
+The progression of the lecture can be summarized as
+
+$$
+\boxed{
+\text{First quantization}
+\quad
+\Psi(x_1,\ldots,x_N)
+}
+$$
+
+$$
+\Downarrow
+$$
+
+$$
+\boxed{
+\text{Occupation numbers}
+\quad
+|n_1,n_2,\ldots\rangle
+}
+$$
+
+$$
+\Downarrow
+$$
+
+$$
+\boxed{
+a_i^\dagger,\ a_i
+}
+$$
+
+$$
+\Downarrow
+$$
+
+$$
+\boxed{
+H
+=
+\sum_{ij}
+t_{ij}a_i^\dagger a_j
++
+\sum_{ijkl}
+V_{ijkl}
+a_i^\dagger a_j^\dagger a_l a_k
+}
+$$
+
+$$
+\Downarrow
+$$
+
+$$
+\boxed{
+\text{Emergent excitations}
+\quad
+H_{\mathrm{eff}}
+=
+\sum_q
+\epsilon_q
+\gamma_q^\dagger\gamma_q
++\cdots
+}
+$$
+
+The essential conceptual message is:
+
+> **Second quantization provides the natural language for describing occupation, interactions, and emergent collective excitations in quantum many-body systems.**
+
+---
+
+# 14. Connection to the Next Lecture
+
+In the next lecture, **Tight-Binding Models and Bloch Theorem**, we will use the second-quantized language developed here to study translationally invariant lattice systems.
+
+A central transformation will be
+
+$$
+c_k
+=
+\frac{1}{\sqrt N}
+\sum_j
+e^{-ikR_j}
+c_j,
+$$
+
+which reorganizes the lattice degrees of freedom into momentum-space modes.
+
+This leads naturally to
+
+- Bloch states,
+- crystal momentum,
+- band dispersion,
+- and the electronic structure of periodic solids.
+
+The sequence of the first three weeks is therefore
+
+$$
+\boxed{
+\text{Week 1: Why many-body physics?}
+}
+$$
+
+$$
+\boxed{
+\text{Week 2: What language should we use?}
+}
+$$
+
+$$
+\boxed{
+\text{Week 3: How does symmetry organize particle motion?}
+}
+$$
