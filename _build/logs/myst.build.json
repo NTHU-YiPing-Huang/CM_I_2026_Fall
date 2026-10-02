@@ -1,0 +1,110 @@
+{
+  "input": {
+    "files": [],
+    "opts": {
+      "execute": false,
+      "executeParallel": 21,
+      "pdf": true,
+      "tex": false,
+      "typst": false,
+      "docx": false,
+      "md": false,
+      "xml": false,
+      "meca": false,
+      "cff": false,
+      "site": false,
+      "html": false,
+      "all": false,
+      "doiBib": false,
+      "watch": false,
+      "force": false,
+      "checkLinks": false,
+      "strict": false,
+      "ci": false,
+      "maxSizeWebp": 1572864,
+      "keepHost": false
+    }
+  },
+  "exports": [
+    {
+      "format": "typst",
+      "template": "lapreprint-typst",
+      "output": "/home/yiping_huang/CM_I_2026_Fall/_build/exports/myst_typst/myst.pdf",
+      "articles": [
+        {
+          "level": 1,
+          "title": "Emergent phenomena"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/w1_emergence_QMBS.md",
+          "level": 2,
+          "slug": "w1-emergence-qmbs"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/w2_2nd_quantization.md",
+          "level": 2,
+          "slug": "w2-2nd-quantization"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/w3_TB_Bloch_Theorem.md",
+          "level": 2,
+          "slug": "w3-tb-bloch-theorem"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/w4_Band_theory_FS.md",
+          "level": 2,
+          "slug": "w4-band-theory-fs"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/w5_Berry_phase_Topo_band.md",
+          "level": 2,
+          "slug": "w5-berry-phase-topo-band"
+        },
+        {
+          "level": 1,
+          "title": "Homework"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/w1_HW.md",
+          "level": 2,
+          "slug": "w1-hw"
+        },
+        {
+          "level": 1,
+          "title": "Midterm Project Proposal"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/mid_term_proposal_guide.md",
+          "level": 2,
+          "slug": "mid-term-proposal-guide"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/condensed_matter_I_final_presentation_topics.md",
+          "level": 2,
+          "slug": "condensed-matter-i-final-presentation-topics"
+        },
+        {
+          "level": 1,
+          "title": "Pre-knowledge"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/SM.tex",
+          "level": 2,
+          "slug": "sm"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/SQ.tex",
+          "level": 2,
+          "slug": "sq"
+        },
+        {
+          "file": "/home/yiping_huang/CM_I_2026_Fall/PI.tex",
+          "level": 2,
+          "slug": "pi"
+        }
+      ],
+      "$file": "/home/yiping_huang/CM_I_2026_Fall/myst.yml",
+      "$project": "/home/yiping_huang/CM_I_2026_Fall"
+    }
+  ]
+}
