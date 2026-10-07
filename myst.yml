@@ -31,6 +31,8 @@ project:
     - title: Homework
       children:
         - file: w1_HW.md
+        - file: w3_HW.md
+
     - title: Midterm Project Proposal
       children:
         - file: mid_term_proposal_guide.md
